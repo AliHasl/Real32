@@ -31,7 +31,7 @@ public class NotesController {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
-		modelAndView.addObject("notes", noteRepository.findAll());
+		modelAndView.addObject("notes", noteRepository.findByAuthor(auth.getName()));
 		modelAndView.addObject("currentUser", user);
 		modelAndView.addObject("fullName", "Welcome " + user.getFullname());
 		modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
@@ -53,7 +53,10 @@ public class NotesController {
 
 	@RequestMapping("/notes/save")
 	public String save(@RequestParam String title, @RequestParam String content) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String userName = auth.getName();
 		Notes note = new Notes();
+		note.setAuthor(userName);
 		note.setTitle(title);
 		note.setContent(content);
 		note.setUpdated(new Date());

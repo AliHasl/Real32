@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,7 +21,9 @@ public class Mount {
 	
 	private Date manufacturedOn;
 	
-	
+	@OneToOne
+	private User manufacturedBy;
+
 	public Mount() {
 		super();
 	}
@@ -47,5 +50,13 @@ public class Mount {
 
 	public void setManufacturedOn(Date manufacturedOn) {
 		this.manufacturedOn = manufacturedOn;
+	}
+	
+	public User getManufacturedBy() {
+		return manufacturedBy;
+	}
+
+	public void setManufacturedBy(User manufacturedBy) {
+		this.manufacturedBy = manufacturedBy;
 	}
 }

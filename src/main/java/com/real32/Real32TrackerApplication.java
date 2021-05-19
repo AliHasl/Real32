@@ -15,12 +15,10 @@ public class Real32TrackerApplication {
 		SpringApplication.run(Real32TrackerApplication.class, args);
 	}
 	
-	//NB removed Bean annotation here... Fixed the problem? No.
 	@Bean
 	CommandLineRunner init(RoleRepository roleRepository) {
 
 	    return args -> {
-	    	System.out.println("Running CommandlineRunner");
 	        Role adminRole;
 			try {
 				adminRole = roleRepository.findByRole("ADMIN");
@@ -39,7 +37,6 @@ public class Real32TrackerApplication {
 	        if (userRole == null) {
 	            Role newUserRole = new Role();
 	            newUserRole.setRole("USER");
-	            System.out.println("Created USER");
 	            roleRepository.save(newUserRole);
 	        }
 	    };

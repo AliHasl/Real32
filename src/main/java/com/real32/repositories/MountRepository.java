@@ -11,4 +11,6 @@ public interface MountRepository extends JpaRepository<Mount, Long> {
 	Mount findBySerial(final String serial);
 	
 	List<Mount> findByManufacturedOn(final String manufacturedOn);
+	
+	List<Mount> findByManufacturedBy(final String manufacturedBy);
 }

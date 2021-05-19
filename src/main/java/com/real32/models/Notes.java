@@ -15,8 +15,10 @@ public class Notes {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+	
+	private String author;
 
-    private String title;
+	private String title;
 
     private String content;
 
@@ -24,11 +26,11 @@ public class Notes {
 
 	public Notes() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
-	public Notes(String title, String content, Date updated) {
+    
+	public Notes(String author, String title, String content, Date updated) {
 		super();
+		this.author = author;
 		this.title = title;
 		this.content = content;
 		this.updated = updated;
@@ -42,6 +44,14 @@ public class Notes {
 		this.id = id;
 	}
 
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
