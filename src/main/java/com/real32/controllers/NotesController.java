@@ -28,12 +28,12 @@ public class NotesController {
 
 	
 	//Send to mount page
-	@RequestMapping(value = "/mount", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/mount", method = RequestMethod.GET)
 	public ModelAndView mount() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("mount");
 		return modelAndView;
-	}
+	}*/
 	
 	
 	@RequestMapping(value = "/notes", method = RequestMethod.GET)

@@ -1,9 +1,12 @@
 package com.real32.controllers;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.real32.models.Mount;
@@ -22,17 +25,20 @@ public class MountController {
 	@GetMapping(value = "/mount")
 	public ModelAndView mounts() {
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("mount");
 		return modelAndView;
 	}
 	
-	@GetMapping("/mount/create")
-	public ModelAndView create() {
-		ModelAndView modelAndView = new ModelAndView();
+	@GetMapping("/mount/save")
+	public  String save(@RequestParam String serial){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
-		Mount mount = new Mount("1");	//Read form for serial number here
+		Mount mount = new Mount();	//Read form for serial number here
+		mount.setSerial(serial);
+		mount.setManufacturedBy(user);
+		mount.setManufacturedOn(new Date());
 		mountRepository.save(mount);
-		return modelAndView;
+		return "redirect:/notes";
 	}
 	
 }
