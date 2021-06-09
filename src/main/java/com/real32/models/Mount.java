@@ -21,8 +21,7 @@ public class Mount {
 	
 	private Date manufacturedOn;
 	
-	@OneToOne
-	private User manufacturedBy;
+	private String manufacturedBy;
 
 	public Mount() {
 		super();
@@ -52,11 +51,11 @@ public class Mount {
 		this.manufacturedOn = manufacturedOn;
 	}
 	
-	public User getManufacturedBy() {
+	public String getManufacturedBy() {
 		return manufacturedBy;
 	}
 
-	public void setManufacturedBy(User manufacturedBy) {
+	public void setManufacturedBy(String manufacturedBy) {
 		this.manufacturedBy = manufacturedBy;
 	}
 }

@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf().disable().formLogin().successHandler(customizeAuthenticationSuccessHandler).loginPage("/login")
 				.failureUrl("/login?error=true").usernameParameter("email").passwordParameter("password").and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").and()
-				.exceptionHandling();
+				.exceptionHandling().and().headers().frameOptions().sameOrigin();
 	}
 
 	@Override

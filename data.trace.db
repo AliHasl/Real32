@@ -128,3 +128,21 @@ ADD ROLE String [50004-199]
 	at org.h2.server.web.WebThread.process(WebThread.java:173)
 	at org.h2.server.web.WebThread.run(WebThread.java:93)
 	at java.base/java.lang.Thread.run(Thread.java:832)
+2021-06-09 14:30:35 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "ID[*]"; expected "INSERT"; SQL statement:
+ID [42001-200]
+2021-06-09 14:30:43 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "ID[*] *"; expected "INSERT"; SQL statement:
+ID * [42001-200]
+2021-06-09 14:30:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * ID[*]"; SQL statement:
+SELECT * ID [42000-200]
+2021-06-09 14:31:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ID" not found; SQL statement:
+SELECT * FROM ID [42102-200]
+2021-06-09 14:33:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ID" not found; SQL statement:
+SELECT * FROM ID [42102-200]
+2021-06-09 14:34:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found; SQL statement:
+SELECT * FROM USERS [42102-200]

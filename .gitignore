@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Additional Ignores AH ###
+**/data/
+**/target/
+
 ### STS ###
 .apt_generated
 .classpath
