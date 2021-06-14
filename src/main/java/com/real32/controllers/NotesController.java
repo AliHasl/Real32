@@ -26,16 +26,7 @@ public class NotesController {
 	@Autowired
 	private NotesRepository noteRepository;
 
-	
-	//Send to mount page
-	/*@RequestMapping(value = "/mount", method = RequestMethod.GET)
-	public ModelAndView mount() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("mount");
-		return modelAndView;
-	}*/
-	
-	
+
 	@RequestMapping(value = "/notes", method = RequestMethod.GET)
 	public ModelAndView notes() {
 		ModelAndView modelAndView = new ModelAndView();

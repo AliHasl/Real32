@@ -21,6 +21,7 @@ public class PageConfig implements WebMvcConfigurer {
 	    registry.addViewController("/").setViewName("notes");
 	    registry.addViewController("/login").setViewName("login");
 	    registry.addViewController("/mount").setViewName("mount");
+	    registry.addViewController("/real32").setViewName("Real32");
 	}
 
 }
