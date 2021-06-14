@@ -27,13 +27,6 @@ public class Mount {
 		super();
 	}
 	
-	public Mount(String serial) {
-		super();
-		
-		this.serial = serial;
-		this.manufacturedOn = new Date();
-	}
-	
 	
 	public String getSerial() {
 		return serial;
