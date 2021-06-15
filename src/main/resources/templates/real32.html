@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="default">
+    <head>
+        <title>Mount</title>
+    </head>
+    <body>
+        <div layout:fragment="content" class="row">
+            <div class="col-xs-8 col-md-8">
+                <h3>
+                    <a href="/mount" class="btn btn-lg btn-primary"><i class="fas fa-list"></i> Mounts</a>
+                </h3>
+                <h2>Assemble Real32 Unit</h2>
+                <div class="form-group">
+                <form>
+                <div>
+                <label for="mountA">Mount A:</label>
+                <select>
+                	<option th:each="mount : ${mounts}" th:text="${mount.serial}" id=mountA></option>
+                </select>
+                </div>
+                <div>
+                <label for="mountB">Mount B:</label>
+                <select>
+                	<option th:each="mount : ${mounts}" th:text="${mount.serial}" id=mountB></option>
+                </select>
+                </div>
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Assemble!</button>
+                </form>
+                </div>
+                
+                </div>
+        	</div>
+    </body>
+</html>
