@@ -9,25 +9,25 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="notes")
+@Table(name = "notes")
 public class Notes {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
 	private String author;
 
 	private String title;
 
-    private String content;
+	private String content;
 
-    private Date updated;
+	private Date updated;
 
 	public Notes() {
 		super();
 	}
-    
+
 	public Notes(String author, String title, String content, Date updated) {
 		super();
 		this.author = author;
@@ -51,7 +51,7 @@ public class Notes {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}
@@ -75,6 +75,5 @@ public class Notes {
 	public void setUpdated(Date updated) {
 		this.updated = updated;
 	}
-	
 
 }

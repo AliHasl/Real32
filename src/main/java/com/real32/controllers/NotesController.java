@@ -26,7 +26,6 @@ public class NotesController {
 	@Autowired
 	private NotesRepository noteRepository;
 
-
 	@RequestMapping(value = "/notes", method = RequestMethod.GET)
 	public ModelAndView notes() {
 		ModelAndView modelAndView = new ModelAndView();
