@@ -127,7 +127,7 @@ function initBuffers(gl) {
 
 	//HTML request the data here. Put this in an array. Print out the array to test.
 	let request = new XMLHttpRequest();
-	request.open('GET', 'monkey', false);
+	request.open('GET', '/models/monkey', false);
 
 	request.onload = function() {
 		if (request.readyState === request.DONE) {
