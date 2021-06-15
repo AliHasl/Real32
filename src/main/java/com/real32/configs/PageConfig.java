@@ -8,20 +8,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class PageConfig implements WebMvcConfigurer {
-	
+
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
-	    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-	    return bCryptPasswordEncoder;
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		return bCryptPasswordEncoder;
 	}
-	
+
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-	    registry.addViewController("/notes").setViewName("notes");
-	    registry.addViewController("/").setViewName("notes");
-	    registry.addViewController("/login").setViewName("login");
-	    registry.addViewController("/mount").setViewName("mount");
-	    registry.addViewController("/real32").setViewName("Real32");
+		registry.addViewController("/notes").setViewName("notes");
+		registry.addViewController("/").setViewName("notes");
+		registry.addViewController("/login").setViewName("login");
+		registry.addViewController("/mount").setViewName("mount");
+		registry.addViewController("/real32").setViewName("Real32");
 	}
 
 }
