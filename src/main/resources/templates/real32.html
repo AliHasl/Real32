@@ -11,17 +11,28 @@
         <div layout:fragment="content" class="row">
             <div class="col-xs-8 col-md-8">
                 <h3>
-                    <a href="/real32" class="btn btn-lg btn-primary"><i class="fas fa-list"></i> Mounts</a>
+                    <a href="/mount" class="btn btn-lg btn-primary"><i class="fas fa-list"></i> Mounts</a>
                 </h3>
-                <h2>Create Mount</h2>
-                <form action="/real32/save">
-                    <div class="form-group">
-                        <label for="serial">Serial:</label>
-                        <input type="text" class="form-control" name="mountA" />
-                    </div>
-                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Manufacture</button>
+                <h2>Assemble Real32 Unit</h2>
+                <div class="form-group">
+                <form>
+                <div>
+                <label for="mountA">Mount A:</label>
+                <select>
+                	<option th:each="mount : ${mounts}" th:text="${mount.serial}" id=mountA></option>
+                </select>
+                </div>
+                <div>
+                <label for="mountB">Mount B:</label>
+                <select>
+                	<option th:each="mount : ${mounts}" th:text="${mount.serial}" id=mountB></option>
+                </select>
+                </div>
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Assemble!</button>
                 </form>
-            </div>
-        </div>
+                </div>
+                
+                </div>
+        	</div>
     </body>
 </html>
