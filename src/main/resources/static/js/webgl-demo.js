@@ -162,7 +162,7 @@ function initBuffers(gl) {
 // Draw the scene.
 //
 function drawScene(gl, programInfo, buffers, vertexCount, deltaTime) {
-	gl.clearColor(1.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
+	gl.clearColor(1.0, 1.0, 1.0, 1.0);  // Clear to black, fully opaque
 	gl.clearDepth(1.0);                 // Clear everything
 	gl.enable(gl.DEPTH_TEST);           // Enable depth testing
 	gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
@@ -202,7 +202,7 @@ function drawScene(gl, programInfo, buffers, vertexCount, deltaTime) {
 
 	mat4.translate(modelViewMatrix,     // destination matrix
 		modelViewMatrix,     // matrix to translate
-		[-0.0, 0.0, -15.0]);  // amount to translate
+		[-0.0, 0.0, -5.0]);  // amount to translate
 	mat4.rotate(xRotationMatrix,  // destination matrix
 		xRotationMatrix,  // matrix to rotate
 		staticPositionY + objectRotationY * 0.01,     // amount to rotate in radians
