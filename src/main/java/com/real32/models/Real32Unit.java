@@ -1,9 +1,12 @@
 package com.real32.models;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,13 +29,13 @@ public class Real32Unit {
 
 	private String assembledBy;
 
-	@ManyToMany
-	@JoinTable(name = "mountA_History", joinColumns = @JoinColumn(name = "real32_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "mountA_History", referencedColumnName = "id"))
-	private Set<Mount> mountA;
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinTable(name = "mountA_History", joinColumns = @JoinColumn(name = "real32_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "mount_id", referencedColumnName = "id"))
+	private Set<Mount> mountA = new HashSet<>();
 
 	@ManyToMany
-	@JoinTable(name = "mountB_History", joinColumns = @JoinColumn(name = "real32_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "mountB_History", referencedColumnName = "id"))
-	private Set<Mount> mountB;
+	@JoinTable(name = "mountB_History", joinColumns = @JoinColumn(name = "real32_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "mountB_id", referencedColumnName = "id"))
+	private Set<Mount> mountB = new HashSet<>();
 
 	public String getSerial() {
 		return serial;
@@ -57,4 +60,13 @@ public class Real32Unit {
 	public void setAssembledBy(String assembledBy) {
 		this.assembledBy = assembledBy;
 	}
+
+	public Set<Mount> getMountA() {
+		return mountA;
+	}
+
+	public Set<Mount> getMountB() {
+		return mountB;
+	}
+
 }
