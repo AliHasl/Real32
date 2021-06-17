@@ -37,6 +37,10 @@ public class Real32Unit {
 	@JoinTable(name = "mountB_History", joinColumns = @JoinColumn(name = "real32_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "mountB_id", referencedColumnName = "id"))
 	private Set<Mount> mountB = new HashSet<>();
 
+	public Long getId() {
+		return id;
+	}
+
 	public String getSerial() {
 		return serial;
 	}

@@ -1,8 +1,11 @@
 package com.real32.controllers;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.real32.models.Mount;
 import com.real32.models.Real32Unit;
 import com.real32.models.User;
@@ -43,13 +47,13 @@ public class Real32UnitController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		Real32Unit real32Unit = new Real32Unit();
-		
+
 		Mount mountA = new Mount("12345");
 		mountRepository.save(mountA);
-		
+
 		Mount mountB = new Mount("6789");
 		mountRepository.save(mountB);
-		
+
 		real32Unit.setSerial(serial);
 		real32Unit.setAssembledBy(user.getFullname());
 		real32Unit.setAssembledOn(new Date());
@@ -59,4 +63,18 @@ public class Real32UnitController {
 
 		return "redirect:/notes";
 	}
+
+	@GetMapping(value = "/real32/show/{serial}")
+	public ResponseEntity<String> Show(@RequestParam String serial) throws IOException {
+		Real32Unit real32Unit = real32UnitRepository.findBySerial(serial);
+		Mount mountA = real32UnitRepository.findMountAsById(real32Unit.getId()).get(0);
+		Mount mountB = real32UnitRepository.findMountBsById(real32Unit.getId()).get(0);
+
+		HashMap<String, Object> jsonMap = new HashMap<>();
+		jsonMap.put("mountA", mountA.getSerial());
+		jsonMap.put("mountB", mountB.getSerial());
+
+		return ResponseEntity.ok(new ObjectMapper().writeValueAsString(jsonMap));
+	}
+
 }

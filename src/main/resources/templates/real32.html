@@ -24,14 +24,14 @@
 
 					<div>
 						<label for="mountA">Mount A:</label> <select>
-							<option th:each="mount : ${mounts}" th:text="${mount.serial}" th:value="${mount.serial}"
-								id=mountA></option>
+							<option th:each="mount : ${mounts}" th:text="${mount.serial}"
+								th:value="${mount.serial}" id=mountA></option>
 						</select>
 					</div>
 					<div>
 						<label for="mountB">Mount B:</label> <select>
-							<option th:each="mount : ${mounts}" th:text="${mount.serial}" th:value="${mount.serial}"
-								id=mountB></option>
+							<option th:each="mount : ${mounts}" th:text="${mount.serial}"
+								th:value="${mount.serial}" id=mountB></option>
 						</select>
 					</div>
 					<button type="submit" class="btn btn-success">
@@ -41,6 +41,54 @@
 			</div>
 
 		</div>
+
+		<div>
+			<form id="real32Search">
+				<label for="search">Search:</label> <input type="text"
+					class="form-control" id="search">
+				<button type="submit" id="search" class="btn btn-success"
+					onclick="displayTable"></button>
+				<p id="tableSpace"></p>
+				<script>
+					function displayTable() {
+
+						var searchQuery = Document.getElementById("search")
+								.text();
+
+						//HTML request the data here. Put this in an array. Print out the array to test.
+						
+						
+						let request = new XMLHttpRequest();
+						try{
+						request.open('GET', '/real32/show/SuperReal32',		//Only machine in db right now
+								false);
+
+						request.onload = function() {
+							if (request.readyState === request.DONE) {
+								return this.responseText;
+							}
+						};
+						request.send();
+						let JSONResponse = JSON.parse(request.responseText);
+						}
+						catch
+						{
+							alert("At least this works...")
+						}
+						const mountA = JSONResponse["mountA"];
+						const mountB = JSONResponse["mountB"];
+
+						var text = "<table border='1'><tr><td>" + mountA
+								+ "</td><td>" + mountB + "</td></tr></table>"
+
+						Document.getElementById("tableSpace").innerHTML = text;
+
+					};
+				</script>
+			</form>
+		</div>
+
+
 	</div>
 </body>
 </html>
