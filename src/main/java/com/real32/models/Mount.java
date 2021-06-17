@@ -69,7 +69,15 @@ public class Mount {
 		return mountAInstallations;
 	}
 
+	public void setMountAInstallations(Set<Real32Unit> mountAInstallations) {
+		this.mountAInstallations = mountAInstallations;
+	}
+
 	public Set<Real32Unit> getMountBInstallations() {
 		return mountBInstallations;
+	}
+
+	public void setMountBInstallations(Set<Real32Unit> mountBInstallations) {
+		this.mountBInstallations = mountBInstallations;
 	}
 }

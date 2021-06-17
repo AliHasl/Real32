@@ -65,8 +65,16 @@ public class Real32Unit {
 		return mountA;
 	}
 
+	public void setMountA(Set<Mount> mountA) {
+		this.mountA = mountA;
+	}
+
 	public Set<Mount> getMountB() {
 		return mountB;
+	}
+
+	public void setMountB(Set<Mount> mountB) {
+		this.mountB = mountB;
 	}
 
 }
