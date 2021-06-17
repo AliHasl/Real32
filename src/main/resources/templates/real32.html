@@ -15,16 +15,22 @@
 			</h3>
 			<h2>Assemble Real32 Unit</h2>
 			<div class="form-group">
-				<form>
+				<form action="real32/save">
+					<div>
+						<label for="">Real32 Serial:</label> <input type="text"
+							class="form-control" name="serial"></input>
+					</div>
+
+
 					<div>
 						<label for="mountA">Mount A:</label> <select>
-							<option th:each="mount : ${mounts}" th:text="${mount.serial}"
+							<option th:each="mount : ${mounts}" th:text="${mount.serial}" th:value="${mount.serial}"
 								id=mountA></option>
 						</select>
 					</div>
 					<div>
 						<label for="mountB">Mount B:</label> <select>
-							<option th:each="mount : ${mounts}" th:text="${mount.serial}"
+							<option th:each="mount : ${mounts}" th:text="${mount.serial}" th:value="${mount.serial}"
 								id=mountB></option>
 						</select>
 					</div>

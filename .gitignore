@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 ### Additional Ignores AH ###
-*/data/
+data/
 */target/
 
 ### STS ###
