@@ -43,52 +43,65 @@
 		</div>
 
 		<div>
-			<form id="real32Search">
+
+			<form id="real32Search" onsubmit="return displayTable();">
 				<label for="search">Search:</label> <input type="text"
-					class="form-control" id="search">
-				<button type="submit" id="search" class="btn btn-success"
-					onclick="displayTable"></button>
+					class="form-control" id="searchInput"></input>
+				<button type="submit" class="btn btn-success">Search!</button>
 				<p id="tableSpace"></p>
-				<script>
+				<script type="text/javascript">
 					function displayTable() {
 
-						var searchQuery = Document.getElementById("search")
-								.text();
+						try {
+							var searchQuery = document
+									.getElementById("searchInput").value;
+						} catch (error) {
+							alert(error.message);
+						}
 
 						//HTML request the data here. Put this in an array. Print out the array to test.
-						
-						
+
 						let request = new XMLHttpRequest();
-						try{
-						request.open('GET', '/real32/show/SuperReal32',		//Only machine in db right now
-								false);
+						try {
+							request.open('GET', '/real32/show', //Only machine in db right now
+							false);
 
-						request.onload = function() {
-							if (request.readyState === request.DONE) {
-								return this.responseText;
-							}
-						};
-						request.send();
-						let JSONResponse = JSON.parse(request.responseText);
+							request.onload = function() {
+								if (request.readyState === request.DONE) {
+									return this.responseText;
+								}
+							};
+							request.send();
+							let JSONResponse = JSON.parse(request.responseText);
+
+							const mountA = JSONResponse["mountA"];
+							const mountB = JSONResponse["mountB"];
+							const operator = JSONResponse["operator"];
+							const installDate = JSONResponse["installationDate"];
+
+							var text = "<table border='1'><tr><th>MountA</th><th>MountB</th><th>Operator</th><th>Installation Date</th></tr>"
+									+ "<tr><td>"
+									+ mountA
+									+ "</td><td>"
+									+ mountB
+									+ "</td><td>"
+									+ operator
+									+ "</td><td>"
+									+ new Date(installDate)
+									+ "</td></tr></table>"
+
+							document.getElementById("tableSpace").innerHTML = text;
+							return false;
+
+						} catch (e) {
+							alert(e.message);
 						}
-						catch
-						{
-							alert("At least this works...")
-						}
-						const mountA = JSONResponse["mountA"];
-						const mountB = JSONResponse["mountB"];
-
-						var text = "<table border='1'><tr><td>" + mountA
-								+ "</td><td>" + mountB + "</td></tr></table>"
-
-						Document.getElementById("tableSpace").innerHTML = text;
 
 					};
 				</script>
+
 			</form>
 		</div>
-
-
 	</div>
 </body>
 </html>

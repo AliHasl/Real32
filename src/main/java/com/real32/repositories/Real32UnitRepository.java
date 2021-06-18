@@ -14,8 +14,5 @@ public interface Real32UnitRepository extends JpaRepository<Real32Unit, Long> {
 	List<Real32Unit> findByAssembledOn(final String assembledOn);
 
 	List<Real32Unit> findByAssembledBy(final String assembledBy);
-	
-	List<Mount> findMountAsById(final Long id);
-	
-	List<Mount> findMountBsById(final Long id);
+
 }
