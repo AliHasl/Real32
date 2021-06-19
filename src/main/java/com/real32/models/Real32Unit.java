@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -33,9 +34,12 @@ public class Real32Unit {
 	@JoinTable(name = "mountA_History", joinColumns = @JoinColumn(name = "real32_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "mount_id", referencedColumnName = "id"))
 	private Set<Mount> mountA = new HashSet<>();
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "mountB_History", joinColumns = @JoinColumn(name = "real32_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "mountB_id", referencedColumnName = "id"))
 	private Set<Mount> mountB = new HashSet<>();
+
+	@OneToMany(mappedBy = "real32Unit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<ProductionLog> productionLog = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -81,4 +85,11 @@ public class Real32Unit {
 		this.mountB = mountB;
 	}
 
+	public Set<ProductionLog> getProductionLog() {
+		return productionLog;
+	}
+
+	public void setProductionLog(Set<ProductionLog> productionLog) {
+		this.productionLog = productionLog;
+	}
 }

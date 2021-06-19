@@ -15,8 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.real32.models.Mount;
+import com.real32.models.ProductionLog;
 import com.real32.models.Real32Unit;
 import com.real32.models.User;
+import com.real32.models.ProductionLog.Status;
 import com.real32.repositories.MountRepository;
 import com.real32.repositories.Real32UnitRepository;
 import com.real32.services.CustomUserDetailsService;
@@ -48,17 +50,19 @@ public class Real32UnitController {
 		User user = userService.findUserByEmail(auth.getName());
 		Real32Unit real32Unit = new Real32Unit();
 
-		Mount mountA = new Mount(mountASerial);
-		mountRepository.save(mountA);
-
-		Mount mountB = new Mount(mountBSerial);
-		mountRepository.save(mountB);
+		Mount mountA = mountRepository.findBySerial(mountASerial);
+		Mount mountB = mountRepository.findBySerial(mountBSerial);
 
 		real32Unit.setSerial(serial);
 		real32Unit.setAssembledBy(user.getFullname());
 		real32Unit.setAssembledOn(new Date());
 		real32Unit.getMountA().add(mountA);
 		real32Unit.getMountB().add(mountB);
+		real32Unit.getProductionLog().add(new ProductionLog(Status.CREATED, user, "Real32Unit Created"));
+		real32Unit.getProductionLog().add(new ProductionLog(Status.INSTALLED, user, mountA, "Mount A Installed"));
+		real32Unit.getProductionLog().add(new ProductionLog(Status.INSTALLED, user, mountB, "Mount B Installed"));
+		mountA.getProductionLog().add(new ProductionLog(Status.INSTALLED, user, real32Unit, "Installed in Mount A"));
+		mountB.getProductionLog().add(new ProductionLog(Status.INSTALLED, user, real32Unit, "Installed in Mount B"));
 		real32UnitRepository.save(real32Unit);
 
 		return "redirect:/notes";
