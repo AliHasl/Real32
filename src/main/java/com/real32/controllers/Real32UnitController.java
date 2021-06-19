@@ -43,15 +43,15 @@ public class Real32UnitController {
 	}
 
 	@GetMapping(value = "/real32/save")
-	public String Save(@RequestParam String serial) {
+	public String Save(@RequestParam String serial, @RequestParam String mountASerial, @RequestParam String mountBSerial) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		Real32Unit real32Unit = new Real32Unit();
 
-		Mount mountA = new Mount("12345");
+		Mount mountA = new Mount(mountASerial);
 		mountRepository.save(mountA);
 
-		Mount mountB = new Mount("6789");
+		Mount mountB = new Mount(mountBSerial);
 		mountRepository.save(mountB);
 
 		real32Unit.setSerial(serial);
@@ -65,8 +65,8 @@ public class Real32UnitController {
 	}
 
 	@GetMapping(value = "/real32/show")
-	public ResponseEntity<String> Show() throws IOException {
-		Real32Unit real32Unit = real32UnitRepository.findBySerial("SuperReal32");
+	public ResponseEntity<String> Show(@RequestParam String serial) throws IOException {
+		Real32Unit real32Unit = real32UnitRepository.findBySerial(serial);
 		Mount mountA = (Mount) real32Unit.getMountA().toArray()[0];
 		Mount mountB = (Mount) real32Unit.getMountB().toArray()[0];
 

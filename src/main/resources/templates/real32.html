@@ -23,15 +23,15 @@
 
 
 					<div>
-						<label for="mountA">Mount A:</label> <select>
+						<label for="mountA">Mount A:</label> <select th:name=mountASerial>
 							<option th:each="mount : ${mounts}" th:text="${mount.serial}"
-								th:value="${mount.serial}" id=mountA></option>
+								th:value="${mount.serial}"></option>
 						</select>
 					</div>
 					<div>
-						<label for="mountB">Mount B:</label> <select>
+						<label for="mountB">Mount B:</label> <select th:name=mountBSerial>
 							<option th:each="mount : ${mounts}" th:text="${mount.serial}"
-								th:value="${mount.serial}" id=mountB></option>
+								th:value="${mount.serial}"></option>
 						</select>
 					</div>
 					<button type="submit" class="btn btn-success">
@@ -43,11 +43,9 @@
 		</div>
 
 		<div>
-
-			<form id="real32Search" onsubmit="return displayTable();">
 				<label for="search">Search:</label> <input type="text"
 					class="form-control" id="searchInput"></input>
-				<button type="submit" class="btn btn-success">Search!</button>
+				<button type="button" class="btn btn-success" onclick="displayTable()">Search!</button>
 				<p id="tableSpace"></p>
 				<script type="text/javascript">
 					function displayTable() {
@@ -55,15 +53,10 @@
 						try {
 							var searchQuery = document
 									.getElementById("searchInput").value;
-						} catch (error) {
-							alert(error.message);
-						}
 
 						//HTML request the data here. Put this in an array. Print out the array to test.
-
 						let request = new XMLHttpRequest();
-						try {
-							request.open('GET', '/real32/show', //Only machine in db right now
+							request.open('GET', "/real32/show?serial=" + searchQuery,
 							false);
 
 							request.onload = function() {
@@ -91,7 +84,6 @@
 									+ "</td></tr></table>"
 
 							document.getElementById("tableSpace").innerHTML = text;
-							return false;
 
 						} catch (e) {
 							alert(e.message);
@@ -99,8 +91,6 @@
 
 					};
 				</script>
-
-			</form>
 		</div>
 	</div>
 </body>
