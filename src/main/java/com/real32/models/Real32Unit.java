@@ -1,7 +1,9 @@
 package com.real32.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -39,7 +41,7 @@ public class Real32Unit {
 	private Set<Mount> mountB = new HashSet<>();
 
 	@OneToMany(mappedBy = "real32Unit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<ProductionLog> productionLog = new HashSet<>();
+	private List<ProductionLog> productionLog = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -85,11 +87,11 @@ public class Real32Unit {
 		this.mountB = mountB;
 	}
 
-	public Set<ProductionLog> getProductionLog() {
+	public List<ProductionLog> getProductionLog() {
 		return productionLog;
 	}
 
-	public void setProductionLog(Set<ProductionLog> productionLog) {
+	public void setProductionLog(List<ProductionLog> productionLog) {
 		this.productionLog = productionLog;
 	}
 }

@@ -3,10 +3,16 @@ package com.real32.models;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import org.springframework.lang.Nullable;
+
+import com.sun.istack.NotNull;
 
 @Entity
 public class ProductionLog {
@@ -18,20 +24,27 @@ public class ProductionLog {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
+	
+	@Enumerated(EnumType.STRING)
+	@NotNull
 	private Status status;
 
 	@OneToOne
+	@NotNull
 	private User user;
 
+	@NotNull
 	private Date date;
 
+	@NotNull
 	private String log;
 
 	@OneToOne
+	@Nullable
 	private Real32Unit real32Unit;
 
 	@OneToOne
+	@Nullable
 	private Mount mount;
 
 	public ProductionLog() {

@@ -1,7 +1,9 @@
 package com.real32.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -41,8 +44,9 @@ public class Mount {
 	@ManyToMany(mappedBy = "mountB", fetch = FetchType.LAZY)
 	private Set<Real32Unit> mountBInstallations = new HashSet<>();
 
-	@OneToMany(mappedBy = "mount", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	private Set<ProductionLog> productionLog = new HashSet<>();
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "mount_ProductionLog", joinColumns = @JoinColumn(name = "mount_id", referencedColumnName="id"), inverseJoinColumns = @JoinColumn(name = "productionLog_id", referencedColumnName = "id"))
+	private List<ProductionLog> productionLog = new ArrayList<>();
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -104,11 +108,11 @@ public class Mount {
 		this.mountBInstallations = mountBInstallations;
 	}
 
-	public Set<ProductionLog> getProductionLog() {
+	public List<ProductionLog> getProductionLog() {
 		return productionLog;
 	}
 
-	public void setProductionLog(Set<ProductionLog> productionLog) {
+	public void setProductionLog(List<ProductionLog> productionLog) {
 		this.productionLog = productionLog;
 	}
 }
