@@ -99,7 +99,7 @@ public class MountController {
 		targetMount.setStatus(Status.RETIRED);
 		targetMount.getProductionLog().add(new ProductionLog(ProductionLog.Status.DESTROYED, user, "Mount Destroyed"));
 		mountRepository.save(targetMount);
-		return ResponseEntity.ok("Mount:" + targetMount + " retired.");
+		return ResponseEntity.ok("Mount:" + targetMount.getSerial() + " retired.");
 	}
 
 }

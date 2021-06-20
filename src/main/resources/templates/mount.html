@@ -11,14 +11,14 @@
 	<div layout:fragment="content" class="row">
 		<div class="col-xs-8 col-md-8">
 			<h3>
-				<a href="/mount" class="btn btn-lg btn-primary"><i
-					class="fas fa-list"></i> Mounts</a>
+				<a th:href="@{'/real32'}" class="btn btn-lg btn-primary"><i
+					class="fas fa-compass"></i> Go to Real32</a>
 			</h3>
 
 			<button class="accordion">Create</button>
 			<div class="panel">
 
-				<h2>Create Mount</h2>
+				<h3>Create Mount</h3>
 				<form action="/mount/save">
 					<div class="form-group">
 						<label for="serial">Serial:</label> <input type="text"
@@ -32,6 +32,7 @@
 
 			<Button class="accordion">Inspect</Button>
 			<div class="panel" id="inspectPanel">
+			<h3>Inspect Mount</h3>
 				<label for="inspectSerial">Serial:</label> <input type="text"
 					name="inspectSerial" id="inspectSerial"></input>
 				<button type="button" class="btn btn-info"
@@ -127,14 +128,38 @@
 
 			<Button class="accordion">Delete</Button>
 			<div class="panel">
-				<h2>Delete Mount</h2>
-				<label for="deleteSerial">Serial:</label> <input type="text"
-					name="deleteSerial" id="deleteSerialInput"></input>
-				<Button type="button" class="btn btn-danger" id="deleteButton"
-					onClick="deleteMount()">
-					<i class="fa fa-exclamation"></i> Delete
+				<h2>Destroy Mount</h2>
+				<label for="destroySerial">Serial:</label> <input type="text"
+					name="destroySerial" id="destroySerialInput"></input>
+				<Button type="button" class="btn btn-danger" id="destroyButton"
+					onclick="destroyMount()">
+					<i class="fa fa-exclamation"></i> Destroy
 				</Button>
 			</div>
+			<script type="text/javascript">
+				function destroyMount() {
+					try {
+						var searchQuery = document
+								.getElementById("destroySerialInput").value;
+
+						//HTML request the data here. Put this in an array. Print out the array to test.
+						let request = new XMLHttpRequest();
+						request.open('GET', "/mount/destroy?serial="
+								+ searchQuery, false);
+
+						request.onload = function() {
+							if (request.readyState === request.DONE) {
+								return this.responseText;
+							}
+						};
+						request.send();
+
+						alert(request.responseText);
+					} catch (e) {
+						alert(e.message);
+					}
+				}
+			</script>
 		</div>
 		<script type="text/javascript">
 			var acc = document.getElementsByClassName("accordion");

@@ -10,15 +10,15 @@
 	<div layout:fragment="content" class="row">
 		<div class="col-xs-8 col-md-8">
 			<h3>
-				<a href="/notes/create" class="btn btn-primary"><i
+				<a href="/notes/create" class="btn btn-secondary"><i
 					class="fas fa-plus-square"></i> Note</a>
 			</h3>
 			<h2>My Notes</h2>
 			<div>
-				<a th:href="@{'/mount'}">Create Mount</a>
+				<a type="button" class="btn btn-primary" th:href="@{'/mount'}">Mount</a>
 			</div>
 			<div>
-				<a th:href="@{'/real32'}">Register Real32</a>
+				<a type="button" class="btn btn-primary" th:href="@{'/real32'}">Real32</a>
 			</div>
 
 			<div class="table-responsive">

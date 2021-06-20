@@ -4,14 +4,14 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="default">
 <head>
-<title>Mount</title>
+<title>Real32</title>
 </head>
 <body>
 	<div layout:fragment="content" class="row">
 		<div class="col-xs-8 col-md-8">
 			<h3>
-				<a href="/mount" class="btn btn-lg btn-primary"><i
-					class="fas fa-list"></i> Mounts</a>
+				<a th:href="@{'/mount'}" class="btn btn-lg btn-primary"><i
+					class="fas fa-compass"></i> Go To Mounts</a>
 			</h3>
 			<h2>Assemble Real32 Unit</h2>
 			<div class="form-group">
