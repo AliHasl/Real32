@@ -134,7 +134,6 @@ function initBuffers(gl) {
 			return this.responseText;
 		}
 	};
-	console.log('sending');
 	request.send();
 	let JSONResponse = JSON.parse(request.responseText);
 	let importedVertices = [];

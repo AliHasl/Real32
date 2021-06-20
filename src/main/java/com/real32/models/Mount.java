@@ -1,20 +1,32 @@
 package com.real32.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "mounts")
 public class Mount {
+
+	public enum Status {
+		AVAILABLE, INSTALLED, RETIRED
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,6 +43,13 @@ public class Mount {
 
 	@ManyToMany(mappedBy = "mountB", fetch = FetchType.LAZY)
 	private Set<Real32Unit> mountBInstallations = new HashSet<>();
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "mount_ProductionLog", joinColumns = @JoinColumn(name = "mount_id", referencedColumnName="id"), inverseJoinColumns = @JoinColumn(name = "productionLog_id", referencedColumnName = "id"))
+	private List<ProductionLog> productionLog = new ArrayList<>();
+
+	@Enumerated(EnumType.STRING)
+	private Status status;
 
 	public Mount() {
 		super();
@@ -65,6 +84,14 @@ public class Mount {
 		this.manufacturedBy = manufacturedBy;
 	}
 
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	public Set<Real32Unit> getMountAInstallations() {
 		return mountAInstallations;
 	}
@@ -79,5 +106,13 @@ public class Mount {
 
 	public void setMountBInstallations(Set<Real32Unit> mountBInstallations) {
 		this.mountBInstallations = mountBInstallations;
+	}
+
+	public List<ProductionLog> getProductionLog() {
+		return productionLog;
+	}
+
+	public void setProductionLog(List<ProductionLog> productionLog) {
+		this.productionLog = productionLog;
 	}
 }
