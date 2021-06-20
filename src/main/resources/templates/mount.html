@@ -5,25 +5,89 @@
 	layout:decorate="default">
 <head>
 <title>Mount</title>
+
+
+
+
+
 </head>
 <body>
+
 	<div layout:fragment="content" class="row">
 		<div class="col-xs-8 col-md-8">
 			<h3>
 				<a href="/mount" class="btn btn-lg btn-primary"><i
 					class="fas fa-list"></i> Mounts</a>
 			</h3>
-			<h2>Create Mount</h2>
-			<form action="/mount/save">
-				<div class="form-group">
-					<label for="serial">Serial:</label> <input type="text"
-						class="form-control" name="serial" />
-				</div>
-				<button type="submit" class="btn btn-success">
-					<i class="fas fa-save"></i> Manufacture
-				</button>
-			</form>
+
+			<button class="accordion">Create</button>
+			<div class="panel">
+
+				<h2>Create Mount</h2>
+				<form action="/mount/save">
+					<div class="form-group">
+						<label for="serial">Serial:</label> <input type="text"
+							class="form-control" name="serial" />
+					</div>
+					<button type="submit" class="btn btn-success">
+						<i class="fas fa-save"></i>Manufacture
+					</button>
+				</form>
+			</div>
+
+			<Button class="accordion">Delete</Button>
+			<div class="panel">
+				<h2>Delete Mount</h2>
+				<label for="deleteSerial">Serial:</label> <input type="text"
+					name="deleteSerial" id="deleteSerialInput"></input>
+				<Button type="button" class="btn btn-danger" id="deleteButton"
+					onClick="deleteMount()">Delete</Button>
+			</div>
 		</div>
+			<script type="text/javascript">
+		var acc = document.getElementsByClassName("accordion");
+		var i;
+
+		for (i = 0; i < acc.length; i++) {
+			acc[i].addEventListener("click", function() {
+				this.classList.toggle("active");
+				var panel = this.nextElementSibling;
+				if (panel.style.maxHeight) {
+					panel.style.maxHeight = null;
+				} else {
+					panel.style.maxHeight = panel.scrollHeight + "px";
+				}
+			});
+		}
+	</script>
+	<script type="text/javascript">
+		function deleteMount() {
+
+			try {
+				var searchQuery = document.getElementById("deleteSerialInput").value;
+
+				//HTML request the data here. Put this in an array. Print out the array to test.
+				let request = new XMLHttpRequest();
+				request.open('GET', "/real32/delete?serial=" + searchQuery,
+						false);
+
+				request.onload = function() {
+					if (request.readyState === request.DONE) {
+						return this.responseText;
+					}
+				};
+				request.send();
+				let JSONResponse = JSON.parse(request.responseText);
+
+				alert(request.responseText);
+
+			} catch (e) {
+				alert(e.message);
+			}
+
+		};
+	</script>
 	</div>
+
 </body>
 </html>
