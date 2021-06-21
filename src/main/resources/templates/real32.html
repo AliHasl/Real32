@@ -9,53 +9,54 @@
 <body>
 	<div layout:fragment="content" class="row">
 		<div class="col-xs-8 col-md-8">
-			<h3>
-				<a th:href="@{'/mount'}" class="btn btn-lg btn-primary"><i
-					class="fas fa-compass"></i> Go To Mounts</a>
-			</h3>
-			<h2>Assemble Real32 Unit</h2>
-			<div class="form-group">
-				<form action="real32/save">
-					<div>
-						<label for="">Real32 Serial:</label> <input type="text"
-							class="form-control" name="serial"></input>
-					</div>
-					<div>
-						<label for="mountA">Mount A:</label> <select th:name=mountASerial>
-							<option th:each="mount : ${mounts}" th:text="${mount.serial}"
-								th:value="${mount.serial}"></option>
-						</select>
-					</div>
-					<div>
-						<label for="mountB">Mount B:</label> <select th:name=mountBSerial>
-							<option th:each="mount : ${mounts}" th:text="${mount.serial}"
-								th:value="${mount.serial}"></option>
-						</select>
-					</div>
-					<button type="submit" class="btn btn-success">
-						<i class="fas fa-save"></i> Assemble!
-					</button>
-				</form>
+			<div>
+				<h3>
+					<a th:href="@{'/mount'}" class="btn btn-lg btn-primary"><i
+						class="fas fa-compass"></i> Go To Mounts</a>
+				</h3>
+				<h2>Assemble Real32 Unit</h2>
+				<div>
+					<label for="">Real32 Serial:</label> <input type="text"
+						class="form-control" name="serial" id="real32SerialInput"></input>
+				</div>
+				<div>
+					<label for="mountA">Mount A:</label> <select th:name=mountASerial
+						id="mountASerial">
+						<option th:each="mount : ${mounts}" th:text="${mount.serial}"
+							th:value="${mount.serial}"></option>
+					</select>
+				</div>
+				<div>
+					<label for="mountB">Mount B:</label> <select th:name=mountBSerial
+						id="mountBSerial">
+						<option th:each="mount : ${mounts}" th:text="${mount.serial}"
+							th:value="${mount.serial}"></option>
+					</select>
+				</div>
+				<button type="button" class="btn btn-success"
+					onclick="registerReal32Unit()">
+					<i class="fas fa-save"></i> Assemble!
+				</button>
 			</div>
-		</div>
 
-		<div>
-			<label for="search">Search:</label> <input type="text"
-				class="form-control" id="searchInput"></input>
-			<button type="button" class="btn btn-success"
-				onclick="displayTable()">Search!</button>
-			<p id="tableSpace"></p>
 			<script type="text/javascript">
-				function displayTable() {
+				function registerReal32Unit() {
 
 					try {
-						var searchQuery = document
-								.getElementById("searchInput").value;
+						var real32Serial = document
+								.getElementById("real32SerialInput").value;
+
+						var mountASerial = document
+								.getElementById("mountASerial").value;
+						var mountBSerial = document
+								.getElementById("mountBSerial").value;
 
 						//HTML request the data here. Put this in an array. Print out the array to test.
 						let request = new XMLHttpRequest();
-						request.open('GET', "/real32/show?serial="
-								+ searchQuery, false);
+						request.open('GET', "/real32/save?serial="
+								+ real32Serial + "&mountASerial="
+								+ mountASerial + "&mountBSerial="
+								+ mountBSerial, false);
 
 						request.onload = function() {
 							if (request.readyState === request.DONE) {
@@ -63,24 +64,8 @@
 							}
 						};
 						request.send();
-						let JSONResponse = JSON.parse(request.responseText);
 
-						const mountA = JSONResponse["mountA"];
-						const mountB = JSONResponse["mountB"];
-						const operator = JSONResponse["operator"];
-						const installDate = JSONResponse["installationDate"];
-
-						var text = "<table border='1'><tr><th>MountA</th><th>MountB</th><th>Operator</th><th>Installation Date</th></tr>"
-								+ "<tr><td>"
-								+ mountA
-								+ "</td><td>"
-								+ mountB
-								+ "</td><td>"
-								+ operator
-								+ "</td><td>"
-								+ new Date(installDate) + "</td></tr></table>"
-
-						document.getElementById("tableSpace").innerHTML = text;
+						alert(request.responseText);
 
 					} catch (e) {
 						alert(e.message);
@@ -88,6 +73,58 @@
 
 				};
 			</script>
+
+			<div>
+				<label for="search">Search:</label> <input type="text"
+					class="form-control" id="searchInput"></input>
+				<button type="button" class="btn btn-success"
+					onclick="displayTable()">Search!</button>
+				<p id="tableSpace"></p>
+				<script type="text/javascript">
+					function displayTable() {
+
+						try {
+							var searchQuery = document
+									.getElementById("searchInput").value;
+
+							//HTML request the data here. Put this in an array. Print out the array to test.
+							let request = new XMLHttpRequest();
+							request.open('GET', "/real32/show?serial="
+									+ searchQuery, false);
+
+							request.onload = function() {
+								if (request.readyState === request.DONE) {
+									return this.responseText;
+								}
+							};
+							request.send();
+							let JSONResponse = JSON.parse(request.responseText);
+
+							const mountA = JSONResponse["mountA"];
+							const mountB = JSONResponse["mountB"];
+							const operator = JSONResponse["operator"];
+							const installDate = JSONResponse["installationDate"];
+
+							var text = "<table border='1'><tr><th>MountA</th><th>MountB</th><th>Operator</th><th>Installation Date</th></tr>"
+									+ "<tr><td>"
+									+ mountA
+									+ "</td><td>"
+									+ mountB
+									+ "</td><td>"
+									+ operator
+									+ "</td><td>"
+									+ new Date(installDate)
+									+ "</td></tr></table>"
+
+							document.getElementById("tableSpace").innerHTML = text;
+
+						} catch (e) {
+							alert(e.message);
+						}
+
+					};
+				</script>
+			</div>
 		</div>
 	</div>
 </body>

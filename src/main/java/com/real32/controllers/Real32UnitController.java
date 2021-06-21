@@ -77,7 +77,8 @@ public class Real32UnitController {
 		mountB.getProductionLog().add(new ProductionLog(Status.INSTALLED, user, real32Unit, "Installed in Mount B"));
 		real32UnitRepository.save(real32Unit);
 
-		return ResponseEntity.ok("Real32 Unit: " + serial + " Created.");
+		return ResponseEntity.ok("Real32 Unit: " + serial + "\nMount A: " + mountA.getSerial() + "\nMountB: "
+				+ mountB.getSerial() + "\nCreated.");
 	}
 
 	@GetMapping(value = "/real32/show")
