@@ -4,13 +4,18 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,8 +49,15 @@ public class Real32UnitController {
 		return modelAndView;
 	}
 
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex,
+			WebRequest request) {
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+
 	@GetMapping(value = "/real32/save")
-	public String Save(@RequestParam String serial, @RequestParam String mountASerial, @RequestParam String mountBSerial) {
+	public ResponseEntity<String> Save(@RequestParam String serial, @RequestParam String mountASerial,
+			@RequestParam String mountBSerial) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		Real32Unit real32Unit = new Real32Unit();
@@ -54,10 +66,10 @@ public class Real32UnitController {
 		Mount mountB = mountRepository.findBySerial(mountBSerial);
 
 		real32Unit.setSerial(serial);
-		real32Unit.setAssembledBy(user.getFullname());
+		real32Unit.setAssembledBy(user);
 		real32Unit.setAssembledOn(new Date());
-		real32Unit.getMountA().add(mountA);
-		real32Unit.getMountB().add(mountB);
+		real32Unit.setMountA(mountA);
+		real32Unit.setMountB(mountB);
 		real32Unit.getProductionLog().add(new ProductionLog(Status.CREATED, user, "Real32Unit Created"));
 		real32Unit.getProductionLog().add(new ProductionLog(Status.INSTALLED, user, mountA, "Mount A Installed"));
 		real32Unit.getProductionLog().add(new ProductionLog(Status.INSTALLED, user, mountB, "Mount B Installed"));
@@ -65,14 +77,14 @@ public class Real32UnitController {
 		mountB.getProductionLog().add(new ProductionLog(Status.INSTALLED, user, real32Unit, "Installed in Mount B"));
 		real32UnitRepository.save(real32Unit);
 
-		return "redirect:/notes";
+		return ResponseEntity.ok("Real32 Unit: " + serial + " Created.");
 	}
 
 	@GetMapping(value = "/real32/show")
 	public ResponseEntity<String> Show(@RequestParam String serial) throws IOException {
 		Real32Unit real32Unit = real32UnitRepository.findBySerial(serial);
-		Mount mountA = (Mount) real32Unit.getMountA().toArray()[0];
-		Mount mountB = (Mount) real32Unit.getMountB().toArray()[0];
+		Mount mountA = (Mount) real32Unit.getMountA();
+		Mount mountB = (Mount) real32Unit.getMountB();
 
 		HashMap<String, Object> jsonMap = new HashMap<>();
 		jsonMap.put("mountA", mountA.getSerial());

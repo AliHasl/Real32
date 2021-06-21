@@ -20,8 +20,6 @@
 						<label for="">Real32 Serial:</label> <input type="text"
 							class="form-control" name="serial"></input>
 					</div>
-
-
 					<div>
 						<label for="mountA">Mount A:</label> <select th:name=mountASerial>
 							<option th:each="mount : ${mounts}" th:text="${mount.serial}"
@@ -39,58 +37,57 @@
 					</button>
 				</form>
 			</div>
-
 		</div>
 
 		<div>
-				<label for="search">Search:</label> <input type="text"
-					class="form-control" id="searchInput"></input>
-				<button type="button" class="btn btn-success" onclick="displayTable()">Search!</button>
-				<p id="tableSpace"></p>
-				<script type="text/javascript">
-					function displayTable() {
+			<label for="search">Search:</label> <input type="text"
+				class="form-control" id="searchInput"></input>
+			<button type="button" class="btn btn-success"
+				onclick="displayTable()">Search!</button>
+			<p id="tableSpace"></p>
+			<script type="text/javascript">
+				function displayTable() {
 
-						try {
-							var searchQuery = document
-									.getElementById("searchInput").value;
+					try {
+						var searchQuery = document
+								.getElementById("searchInput").value;
 
 						//HTML request the data here. Put this in an array. Print out the array to test.
 						let request = new XMLHttpRequest();
-							request.open('GET', "/real32/show?serial=" + searchQuery,
-							false);
+						request.open('GET', "/real32/show?serial="
+								+ searchQuery, false);
 
-							request.onload = function() {
-								if (request.readyState === request.DONE) {
-									return this.responseText;
-								}
-							};
-							request.send();
-							let JSONResponse = JSON.parse(request.responseText);
+						request.onload = function() {
+							if (request.readyState === request.DONE) {
+								return this.responseText;
+							}
+						};
+						request.send();
+						let JSONResponse = JSON.parse(request.responseText);
 
-							const mountA = JSONResponse["mountA"];
-							const mountB = JSONResponse["mountB"];
-							const operator = JSONResponse["operator"];
-							const installDate = JSONResponse["installationDate"];
+						const mountA = JSONResponse["mountA"];
+						const mountB = JSONResponse["mountB"];
+						const operator = JSONResponse["operator"];
+						const installDate = JSONResponse["installationDate"];
 
-							var text = "<table border='1'><tr><th>MountA</th><th>MountB</th><th>Operator</th><th>Installation Date</th></tr>"
-									+ "<tr><td>"
-									+ mountA
-									+ "</td><td>"
-									+ mountB
-									+ "</td><td>"
-									+ operator
-									+ "</td><td>"
-									+ new Date(installDate)
-									+ "</td></tr></table>"
+						var text = "<table border='1'><tr><th>MountA</th><th>MountB</th><th>Operator</th><th>Installation Date</th></tr>"
+								+ "<tr><td>"
+								+ mountA
+								+ "</td><td>"
+								+ mountB
+								+ "</td><td>"
+								+ operator
+								+ "</td><td>"
+								+ new Date(installDate) + "</td></tr></table>"
 
-							document.getElementById("tableSpace").innerHTML = text;
+						document.getElementById("tableSpace").innerHTML = text;
 
-						} catch (e) {
-							alert(e.message);
-						}
+					} catch (e) {
+						alert(e.message);
+					}
 
-					};
-				</script>
+				};
+			</script>
 		</div>
 	</div>
 </body>

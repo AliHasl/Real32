@@ -16,7 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "real32units")
@@ -26,19 +31,24 @@ public class Real32Unit {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	
+	@Pattern(regexp = "[a-zA-Z0-9][^ijloxIJLOX]{9}")
 	private String serial;
 
+	@NotNull
 	private Date assembledOn;
 
-	private String assembledBy;
+	@OneToOne
+	@NotNull
+	private User assembledBy;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinTable(name = "mountA_History", joinColumns = @JoinColumn(name = "real32_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "mount_id", referencedColumnName = "id"))
-	private Set<Mount> mountA = new HashSet<>();
+	@OneToOne
+	@Nullable
+	private Mount mountA;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinTable(name = "mountB_History", joinColumns = @JoinColumn(name = "real32_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "mountB_id", referencedColumnName = "id"))
-	private Set<Mount> mountB = new HashSet<>();
+	@OneToOne
+	@Nullable
+	private Mount mountB;
 
 	@OneToMany(mappedBy = "real32Unit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ProductionLog> productionLog = new ArrayList<>();
@@ -63,27 +73,27 @@ public class Real32Unit {
 		this.assembledOn = assembledOn;
 	}
 
-	public String getAssembledBy() {
+	public User getAssembledBy() {
 		return assembledBy;
 	}
 
-	public void setAssembledBy(String assembledBy) {
+	public void setAssembledBy(User assembledBy) {
 		this.assembledBy = assembledBy;
 	}
 
-	public Set<Mount> getMountA() {
+	public Mount getMountA() {
 		return mountA;
 	}
 
-	public void setMountA(Set<Mount> mountA) {
+	public void setMountA(Mount mountA) {
 		this.mountA = mountA;
 	}
 
-	public Set<Mount> getMountB() {
+	public Mount getMountB() {
 		return mountB;
 	}
 
-	public void setMountB(Set<Mount> mountB) {
+	public void setMountB(Mount mountB) {
 		this.mountB = mountB;
 	}
 

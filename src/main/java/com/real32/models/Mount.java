@@ -18,7 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "mounts")
@@ -32,23 +37,34 @@ public class Mount {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	
+	@Pattern(regexp = "[a-zA-Z0-9][^ijloxIJLOX]{9}")
+	@NotNull
 	private String serial;
 
+	@NotNull
 	private Date manufacturedOn;
 
-	private String manufacturedBy;
+	@OneToOne
+	@NotNull
+	private User manufacturedBy;
 
-	@ManyToMany(mappedBy = "mountA", fetch = FetchType.LAZY)
-	private Set<Real32Unit> mountAInstallations = new HashSet<>();
+	
+	@OneToOne
+	@Nullable
+	private Real32Unit mountAInstallation;
 
-	@ManyToMany(mappedBy = "mountB", fetch = FetchType.LAZY)
-	private Set<Real32Unit> mountBInstallations = new HashSet<>();
+	@OneToOne
+	@Nullable
+	private Real32Unit mountBInstallation;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "mount_ProductionLog", joinColumns = @JoinColumn(name = "mount_id", referencedColumnName="id"), inverseJoinColumns = @JoinColumn(name = "productionLog_id", referencedColumnName = "id"))
+	@NotNull
 	private List<ProductionLog> productionLog = new ArrayList<>();
 
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private Status status;
 
 	public Mount() {
@@ -76,11 +92,11 @@ public class Mount {
 		this.manufacturedOn = manufacturedOn;
 	}
 
-	public String getManufacturedBy() {
+	public User getManufacturedBy() {
 		return manufacturedBy;
 	}
 
-	public void setManufacturedBy(String manufacturedBy) {
+	public void setManufacturedBy(User manufacturedBy) {
 		this.manufacturedBy = manufacturedBy;
 	}
 
@@ -92,20 +108,20 @@ public class Mount {
 		this.status = status;
 	}
 
-	public Set<Real32Unit> getMountAInstallations() {
-		return mountAInstallations;
+	public Real32Unit getMountAInstallation() {
+		return mountAInstallation;
 	}
 
-	public void setMountAInstallations(Set<Real32Unit> mountAInstallations) {
-		this.mountAInstallations = mountAInstallations;
+	public void setMountAInstallation(Real32Unit mountAInstallation) {
+		this.mountAInstallation = mountAInstallation;
 	}
 
-	public Set<Real32Unit> getMountBInstallations() {
-		return mountBInstallations;
+	public Real32Unit getMountBInstallation() {
+		return mountBInstallation;
 	}
 
-	public void setMountBInstallations(Set<Real32Unit> mountBInstallations) {
-		this.mountBInstallations = mountBInstallations;
+	public void setMountBInstallation(Real32Unit mountBInstallation) {
+		this.mountBInstallation = mountBInstallation;
 	}
 
 	public List<ProductionLog> getProductionLog() {

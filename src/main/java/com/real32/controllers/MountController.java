@@ -3,12 +3,15 @@ package com.real32.controllers;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +27,7 @@ import com.real32.repositories.MountRepository;
 import com.real32.services.CustomUserDetailsService;
 
 @Controller
+@Validated
 public class MountController {
 
 	@Autowired
@@ -41,12 +45,12 @@ public class MountController {
 	}
 
 	@RequestMapping(value = "/mount/save")
-	public String save(@RequestParam String serial) {
+	public String save(@Valid @RequestParam String serial) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		Mount mount = new Mount();
 		mount.setSerial(serial);
-		mount.setManufacturedBy(user.getFullname());
+		mount.setManufacturedBy(user);
 		mount.setManufacturedOn(new Date());
 		mount.setStatus(Status.AVAILABLE);
 		mount.getProductionLog().add(new ProductionLog(ProductionLog.Status.CREATED, user, "Mount Created"));
