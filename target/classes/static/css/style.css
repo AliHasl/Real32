@@ -82,19 +82,19 @@ body {
 }
 
 .tooltip .tooltiptext {
-	visibility: hidden;
-	width: 120px;
+	visibility: visible;
+	width: 260px;
 	background-color: #555;
 	color: #fff;
-	text-align: center;
+	text-align: left;
 	border-radius: 6px;
 	padding: 5px 0;
 	position: absolute;
 	z-index: 1;
-	bottom: 125%;
-	left: 50%;
+	bottom: 10px;
+	left: 150%;
 	margin-left: -60px;
-	opacity: 0;
+	opacity: 1;
 	transition: opacity 0.3s;
 }
 

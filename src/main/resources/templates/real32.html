@@ -17,8 +17,8 @@
 				<h2>Assemble Real32 Unit</h2>
 				<div class="tooltip">
 					<label for="serial">Serial: </label><input type="text"
-						name="serial" id="real32SerialInput"></input> <span
-						class="tooltiptext">TextipTool</span>
+						name="serial" id="real32SerialInput" oninput="validateSerial(this.value)"></input> <span
+						class="tooltiptext" id=tooltiptext></span>
 				</div>
 				<div>
 					<label for="mountASerial">Mount A: </label> <select
@@ -42,17 +42,35 @@
 
 			<script type="text/javascript">
 				function validateSerial(serial) {
-					var regex = /[a-z0-9][^ijoux]/i;
+					var regex = /[0-9^ijoux]+/i;
+					
+					var toolText = "<p>Requirements:</p><ul>"
+					
+					toolText.innerHTML
+					
+					if (serial.length != 10) {
+						toolText += "<li>Serial length must be 10 characters</li>";
+						//return "NOT_10_LENGTH";
+					}
+					else{
+						toolText += "<li><s>Serial length must be 10 characters</s></li>";
+					}
+					if (!serial.match(regex)) {
+						toolText += "<li>Cannot contain i,j,o,u or x</li>";
+						
+						//return "REGEX_MISMATCH";
+					} else {
+						toolText += "<li><s>Cannot contain i,j,o,u or x</s></li>";
+						//return "VALID";
+					}
 
-					if (value.length != 10) {
-						return "NOT_10_LENGTH";
-					}
-					if (value.match(regex)) {
-						return "REGEX_MISMATCH";
-					}
+					toolText += "</ul>";
+					document.getElementById("tooltiptext").innerHTML = toolText;
+					
 					return true;
 
 				}
+				
 				function registerReal32Unit() {
 
 					try {
@@ -64,13 +82,16 @@
 						var mountBSerial = document
 								.getElementById("mountBSerial").value;
 
-						switch (validateSerial(real32Serial)) {
+						/* switch (validateSerial(real32Serial)) {
 						case "NOT_10_LENGTH":
+							document.getElementById("tooltiptext").innerHTML = <p>Look it has to be 10</p>;
 							break;
 						case "REGEX_MISMATCH":
 							break;
+						case "VALID":
+							break;
 
-						}
+						} */
 
 						//HTML request the data here. Put this in an array. Print out the array to test.
 						let request = new XMLHttpRequest();
