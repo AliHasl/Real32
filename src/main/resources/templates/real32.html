@@ -15,20 +15,21 @@
 						class="fas fa-compass"></i> Go To Mounts</a>
 				</h3>
 				<h2>Assemble Real32 Unit</h2>
-				<div>
-					<label for="">Real32 Serial:</label> <input type="text"
-						class="form-control" name="serial" id="real32SerialInput"></input>
+				<div class="tooltip">
+					<label for="serial">Serial: </label><input type="text"
+						name="serial" id="real32SerialInput"></input> <span
+						class="tooltiptext">TextipTool</span>
 				</div>
 				<div>
-					<label for="mountA">Mount A:</label> <select th:name=mountASerial
-						id="mountASerial">
+					<label for="mountASerial">Mount A: </label> <select
+						th:name=mountASerial id="mountASerial">
 						<option th:each="mount : ${mounts}" th:text="${mount.serial}"
 							th:value="${mount.serial}"></option>
 					</select>
 				</div>
 				<div>
-					<label for="mountB">Mount B:</label> <select th:name=mountBSerial
-						id="mountBSerial">
+					<label for="mountBSerial">Mount B: </label> <select
+						th:name=mountBSerial id="mountBSerial">
 						<option th:each="mount : ${mounts}" th:text="${mount.serial}"
 							th:value="${mount.serial}"></option>
 					</select>
@@ -40,6 +41,18 @@
 			</div>
 
 			<script type="text/javascript">
+				function validateSerial(serial) {
+					var regex = /[a-z0-9][^ijoux]/i;
+
+					if (value.length != 10) {
+						return "NOT_10_LENGTH";
+					}
+					if (value.match(regex)) {
+						return "REGEX_MISMATCH";
+					}
+					return true;
+
+				}
 				function registerReal32Unit() {
 
 					try {
@@ -50,6 +63,14 @@
 								.getElementById("mountASerial").value;
 						var mountBSerial = document
 								.getElementById("mountBSerial").value;
+
+						switch (validateSerial(real32Serial)) {
+						case "NOT_10_LENGTH":
+							break;
+						case "REGEX_MISMATCH":
+							break;
+
+						}
 
 						//HTML request the data here. Put this in an array. Print out the array to test.
 						let request = new XMLHttpRequest();
