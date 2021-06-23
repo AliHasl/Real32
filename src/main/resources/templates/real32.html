@@ -46,8 +46,6 @@
 					
 					var toolText = "<p>Requirements:</p><ul>"
 					
-					toolText.innerHTML
-					
 					if (serial.length != 10) {
 						toolText += "<li>Serial length must be 10 characters</li>";
 						//return "NOT_10_LENGTH";
@@ -55,7 +53,7 @@
 					else{
 						toolText += "<li><s>Serial length must be 10 characters</s></li>";
 					}
-					if (!serial.match(regex)) {
+					if (serial.match(regex) != null) {
 						toolText += "<li>Cannot contain i,j,o,u or x</li>";
 						
 						//return "REGEX_MISMATCH";
